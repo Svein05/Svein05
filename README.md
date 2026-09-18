@@ -4,7 +4,6 @@
 ## 📊 Github Stats
 <p align="center">
   <img src="https://github-stats-extended.vercel.app/api?username=svein05&show_icons=true" />
-  <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=svein05&layout=donut" />
 </p>
 
 ## 🎶 Listen with me
