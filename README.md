@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://discord.com/users/svein._" target="_blank"><img src="https://img.shields.io/badge/Discord-svein._-000000?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://discord.com/users/svein._" target="_blank"><img src="https://img.shields.io/badge/Discord-svein.__-000000?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" /></a>
 </p>
 
 ---
