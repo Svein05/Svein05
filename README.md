@@ -46,6 +46,10 @@
 
 ## 📊 Github Stats
 <p align="center">
+  <img src="https://raw.githubusercontent.com/svein05/svein05/output/github-contribution-grid-snake-dark.svg" alt="Snake animation" />
+</p>
+
+<p align="center">
   <img height="180" src="https://github-stats-extended.vercel.app/api?username=svein05&show_icons=true&custom_title=Svein%20Statistics&bg_color=000000&title_color=ffffff&text_color=ffffff&icon_color=ffffff&border_color=ffffff" alt="Svein Statistics" />
   &nbsp;
   <img height="180" src="https://github-stats-extended.vercel.app/api/top-langs/?username=svein05&layout=compact&custom_title=My%20Top%20Used%20Languages&bg_color=000000&title_color=ffffff&text_color=ffffff&icon_color=ffffff&border_color=ffffff" alt="Top Languages" />
@@ -53,11 +57,6 @@
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/svein05/svein05/main/github-metrics-activity.svg" alt="Activity and Stargazers" />
-</p>
-
-## 🐍 Contribution Snake
-<p align="center">
-  <img src="https://raw.githubusercontent.com/svein05/svein05/output/github-contribution-grid-snake-dark.svg" alt="Snake animation" />
 </p>
 
 ## 🎧 Get To Know Me
