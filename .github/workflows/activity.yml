@@ -2,8 +2,8 @@ name: Update Activity
 
 on:
   schedule:
-    # Runs every hour
-    - cron: "0 * * * *"
+    # Runs every hour at minute 23 (off-peak to avoid GitHub Actions queue delays)
+    - cron: "23 * * * *"
   workflow_dispatch:
   push:
     branches:
