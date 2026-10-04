@@ -52,11 +52,23 @@
   <tr>
     <td width="50%" align="center">
       <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/spacer.svg" width="420" height="1" alt="" /><br><img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
-      <a href="https://github.com/Svein05/Svein05/commit/de6090328daccaac8b53958652a7fce61f9d8766"><i>"style:&nbsp;center&nbsp;activity&nbsp;table,&nbsp;a..."</i></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/e0a263f256a6dc05dd07568b1eba70058fdf81a6"><i>"style:&nbsp;expand&nbsp;activity&nbsp;table&nbsp;wi..."</i></a><br>
       <sub>JUST NOW</sub>
     </td>
     <td width="50%" align="center">
       <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/spacer.svg" width="420" height="1" alt="" /><br><img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/9c386d729d8ea7d891ae3fa1e72d1e35ccce4a1f"><i>"fix:&nbsp;set&nbsp;activity&nbsp;visibility&nbsp;to..."</i></a><br>
+      <sub>JUST NOW</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/de6090328daccaac8b53958652a7fce61f9d8766"><i>"style:&nbsp;center&nbsp;activity&nbsp;table,&nbsp;a..."</i></a><br>
+      <sub>JUST NOW</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
       <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><i>"fix:&nbsp;allow&nbsp;STEAM_USER_ID&nbsp;as&nbsp;sec..."</i></a><br>
       <sub>1H AGO</sub>
     </td>
@@ -69,19 +81,7 @@
     </td>
     <td width="50%" align="center">
       <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
-      <a href="https://github.com/Svein05/Svein05/commit/d5e17cbd1b7645746c34ff25e18bce526e44ba5b"><i>"Pushed&nbsp;commits"</i></a><br>
-      <sub>1H AGO</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
-      <a href="https://github.com/Svein05/Svein05/commit/9c386d729d8ea7d891ae3fa1e72d1e35ccce4a1f"><i>"fix:&nbsp;set&nbsp;activity&nbsp;visibility&nbsp;to..."</i></a><br>
-      <sub>JUST NOW</sub>
-    </td>
-    <td width="50%" align="center">
-      <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
-      <a href="https://github.com/Svein05/Svein05/commit/1eb176aed5829dbf1dfac47aebed05e21663f7b1"><i>"Pushed&nbsp;commits"</i></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/d5e17cbd1b7645746c34ff25e18bce526e44ba5b"><i>"feat:&nbsp;add&nbsp;workflows&nbsp;for&nbsp;snake&nbsp;a..."</i></a><br>
       <sub>1H AGO</sub>
     </td>
   </tr>
