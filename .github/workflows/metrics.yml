@@ -41,7 +41,7 @@ jobs:
           # (Requires STEAM_TOKEN secret and your numeric Steam ID 64)
           plugin_steam: ${{ secrets.STEAM_TOKEN != '' && 'yes' || 'no' }}
           plugin_steam_token: ${{ secrets.STEAM_TOKEN }}
-          plugin_steam_user: ${{ vars.STEAM_USER_ID || '0' }}
+          plugin_steam_user: ${{ secrets.STEAM_USER_ID || vars.STEAM_USER_ID || '0' }}
           plugin_steam_sections: player, most-played, recently-played
           plugin_steam_games_limit: 4
           plugin_steam_recent_games_limit: 2
