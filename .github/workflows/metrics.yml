@@ -34,7 +34,7 @@ jobs:
           plugin_activity: yes
           plugin_activity_limit: 4
           plugin_activity_days: 0
-          plugin_activity_load: 300
+          plugin_activity_visibility: public
           plugin_activity_filter: push, issue, pr, release, fork
           plugin_activity_timestamps: yes
 
