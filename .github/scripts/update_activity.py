@@ -6,7 +6,6 @@ import html
 from datetime import datetime, timezone
 
 USERNAME = "svein05"
-TOKEN = os.environ.get("METRICS_TOKEN") or os.environ.get("GITHUB_TOKEN")
 
 ICONS = {
     "git": '<path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z" fill="#ffffff"/>',
@@ -19,6 +18,26 @@ ICONS = {
     "fork": '<path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h4.5A2.25 2.25 0 0012.5 6.25v-.878a2.25 2.25 0 10-1.5 0V6.25a.75.75 0 01-.75.75h-4.5a.75.75 0 01-.75-.75v-.878zM12.5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM8.75 12.75a.75.75 0 100 1.5.75.75 0 000-1.5zM8 11.25a2.25 2.25 0 101.5 2.122V10.25a3.75 3.75 0 00-.75-2.25H7.25a3.75 3.75 0 00-.75 2.25v3.122A2.25 2.25 0 008 11.25z" fill="#ffffff"/>',
 }
 
+def get_token():
+    token = os.environ.get("METRICS_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if token:
+        return token
+    try:
+        import subprocess
+        p = subprocess.run(
+            ["git", "credential", "fill"],
+            input="protocol=https\nhost=github.com\n",
+            capture_output=True, text=True, check=True
+        )
+        for line in p.stdout.splitlines():
+            if line.startswith("password="):
+                return line.split("=", 1)[1].strip()
+    except Exception:
+        pass
+    return None
+
+TOKEN = get_token()
+
 def get_headers():
     headers = {"User-Agent": "Mozilla/5.0"}
     if TOKEN:
@@ -29,15 +48,20 @@ def time_ago(date_str):
     now = datetime.now(timezone.utc)
     event_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
     diff = now - event_time
-    hours = diff.total_seconds() / 3600
-    if hours < 1:
+    seconds = diff.total_seconds()
+    minutes = int(seconds // 60)
+    hours = int(seconds // 3600)
+    days = int(seconds // 86400)
+
+    if minutes < 2:
         return "JUST NOW"
+    elif minutes < 60:
+        return f"{minutes}M AGO"
     elif hours < 24:
-        return f"{int(hours)}H AGO"
+        return f"{hours}H AGO"
     elif hours < 48:
         return "YESTERDAY"
     else:
-        days = int(hours // 24)
         return f"{days}D AGO"
 
 def fetch_events():
@@ -99,6 +123,8 @@ def fallback_from_git():
 def process_events(events):
     if not events:
         return fallback_from_git()
+
+    events.sort(key=lambda x: x.get("created_at", ""), reverse=True)
 
     parsed = []
     seen = set()
@@ -235,7 +261,7 @@ def generate_svg(items, output_path="assets/git-activity.svg"):
         '    .time { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 600; fill: #8b949e; }',
         '    .detail { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #c9d1d9; }',
         '  </style>',
-        f'  <rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="6" fill="#000000" stroke="#30363d" stroke-width="1" />',
+        f'  <rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="6" fill="#000000" stroke="#ffffff" stroke-width="1" />',
         '',
         '  <!-- Header -->',
         f'  <svg x="326" y="15" width="16" height="16" viewBox="0 0 24 24">{ICONS["git"]}</svg>',
