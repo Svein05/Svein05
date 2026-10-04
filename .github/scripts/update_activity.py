@@ -2,11 +2,20 @@ import urllib.request
 import json
 import os
 import re
+import html
 from datetime import datetime, timezone
 
 USERNAME = "svein05"
 TOKEN = os.environ.get("METRICS_TOKEN") or os.environ.get("GITHUB_TOKEN")
-SPACER = "https://raw.githubusercontent.com/Svein05/Svein05/main/assets/spacer.svg"
+
+ICONS = {
+    "commit": '<path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/>',
+    "merge": '<path fill-rule="evenodd" d="M5 3.254V3.25v.004a2.25 2.25 0 11-1.5 2.118v5.256a2.251 2.251 0 101.5 0V7.71a4.267 4.267 0 002.5 1.04v.878a2.25 2.25 0 101.5 0v-4.13a2.25 2.25 0 10-1.5 0v1.752a2.766 2.766 0 01-2.5-.996V5.372A2.25 2.25 0 015 3.254zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm0 9.5a.75.75 0 100 1.5.75.75 0 000-1.5zm5.5-5a.75.75 0 100 1.5.75.75 0 000-1.5zm0-4.5a.75.75 0 100 1.5.75.75 0 000-1.5z" fill="#ffffff"/>',
+    "pr": '<path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z" fill="#ffffff"/>',
+    "repo": '<path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z" fill="#ffffff"/>',
+    "branch": '<path fill-rule="evenodd" d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z" fill="#ffffff"/>',
+    "tag": '<path fill-rule="evenodd" d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z" fill="#ffffff"/>',
+}
 
 def get_headers():
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -32,8 +41,12 @@ def time_ago(date_str):
 def fetch_events():
     url = f"https://api.github.com/users/{USERNAME}/events?per_page=40"
     req = urllib.request.Request(url, headers=get_headers())
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except Exception as err:
+        print(f"Warning: Could not fetch from GitHub API ({err}), will use fallback.")
+        return []
 
 def fetch_commit_msg(repo, sha):
     url = f"https://api.github.com/repos/{repo}/commits/{sha}"
@@ -45,7 +58,46 @@ def fetch_commit_msg(repo, sha):
     except Exception:
         return "Pushed commits"
 
+def fallback_from_git():
+    import subprocess
+    try:
+        res = subprocess.run(
+            ["git", "log", "-n", "6", "--pretty=format:%h|%s|%ct"],
+            capture_output=True, text=True, check=True
+        )
+        items = []
+        now = datetime.now(timezone.utc).timestamp()
+        for line in res.stdout.strip().split("\n"):
+            if not line:
+                continue
+            parts = line.split("|")
+            if len(parts) >= 3:
+                sha, msg, ts = parts[0], parts[1], int(parts[2])
+                hours = (now - ts) / 3600
+                if hours < 1:
+                    time_tag = "JUST NOW"
+                elif hours < 24:
+                    time_tag = f"{int(hours)}H AGO"
+                elif hours < 48:
+                    time_tag = "YESTERDAY"
+                else:
+                    time_tag = f"{int(hours // 24)}D AGO"
+                items.append({
+                    "icon_type": "commit",
+                    "action": "Push",
+                    "repo_label": "Svein05:main",
+                    "detail": msg,
+                    "sub": time_tag
+                })
+        return items
+    except Exception as e:
+        print(f"Git fallback error: {e}")
+        return []
+
 def process_events(events):
+    if not events:
+        return fallback_from_git()
+
     parsed = []
     seen = set()
 
@@ -70,20 +122,13 @@ def process_events(events):
                 continue
             seen.add(unique_key)
             msg = fetch_commit_msg(repo, head)
-            if len(msg) > 34:
-                msg = msg[:31].strip() + "..."
-            # Replace spaces with &nbsp; so browser CANNOT break line
-            msg_safe = msg.replace(" ", "&nbsp;")
             ref = payload.get("ref", "refs/heads/main").replace("refs/heads/", "")
-            commit_url = f"https://github.com/{repo}/commit/{head}"
-            icon_url = "https://api.iconify.design/octicon/git-commit-16.svg?color=white"
             
             parsed.append({
-                "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="commit" />',
+                "icon_type": "commit",
                 "action": "Push",
                 "repo_label": f"{repo_short}:{ref}",
-                "repo_url": f"https://github.com/{repo}/tree/{ref}",
-                "detail_html": f'<a href="{commit_url}"><i>"{msg_safe}"</i></a>',
+                "detail": msg,
                 "sub": time_tag
             })
 
@@ -92,24 +137,19 @@ def process_events(events):
             pr = payload.get("pull_request", {})
             pr_num = pr.get("number", "")
             pr_title = pr.get("title", "")
-            if len(pr_title) > 34:
-                pr_title = pr_title[:31].strip() + "..."
-            pr_title_safe = pr_title.replace(" ", "&nbsp;")
-            pr_url = pr.get("html_url", f"https://github.com/{repo}/pull/{pr_num}")
             merged = pr.get("merged", False)
             if merged or action == "closed":
-                icon_url = "https://api.iconify.design/octicon/git-merge-16.svg?color=white"
+                icon_type = "merge"
                 act_name = "Merge"
             else:
-                icon_url = "https://api.iconify.design/octicon/git-pull-request-16.svg?color=white"
+                icon_type = "pr"
                 act_name = "PR"
             
             parsed.append({
-                "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="{act_name}" />',
+                "icon_type": icon_type,
                 "action": act_name,
                 "repo_label": f"{repo_short}#{pr_num}",
-                "repo_url": pr_url,
-                "detail_html": f'<a href="{pr_url}"><i>"{pr_title_safe}"</i></a>',
+                "detail": pr_title,
                 "sub": time_tag
             })
 
@@ -117,29 +157,23 @@ def process_events(events):
             ref_type = payload.get("ref_type")
             ref_name = payload.get("ref") or repo_short
             if ref_type == "repository":
-                icon_url = "https://api.iconify.design/octicon/repo-16.svg?color=white"
+                icon_type = "repo"
                 act_name = "New Repo"
-                detail = '"Created public repo"'
-                link = f"https://github.com/{repo}"
+                detail = "Created public repository"
             elif ref_type == "tag":
-                icon_url = "https://api.iconify.design/octicon/tag-16.svg?color=white"
+                icon_type = "tag"
                 act_name = "Tag"
-                detail = f'"Tag {ref_name}"'
-                link = f"https://github.com/{repo}/releases/tag/{ref_name}"
+                detail = f"Tag {ref_name}"
             else:
-                icon_url = "https://api.iconify.design/octicon/git-branch-16.svg?color=white"
+                icon_type = "branch"
                 act_name = "Branch"
-                detail = f'"Branch {ref_name}"'
-                link = f"https://github.com/{repo}/tree/{ref_name}"
-
-            detail_safe = detail.replace(" ", "&nbsp;")
+                detail = f"Branch {ref_name}"
 
             parsed.append({
-                "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="{act_name}" />',
+                "icon_type": icon_type,
                 "action": act_name,
                 "repo_label": repo_short,
-                "repo_url": f"https://github.com/{repo}",
-                "detail_html": f'<a href="{link}"><i>{detail_safe}</i></a>',
+                "detail": detail,
                 "sub": time_tag
             })
 
@@ -147,74 +181,125 @@ def process_events(events):
             release = payload.get("release", {})
             tag_name = release.get("tag_name", "")
             name = release.get("name") or tag_name
-            if len(name) > 34:
-                name = name[:31].strip() + "..."
-            name_safe = name.replace(" ", "&nbsp;")
-            rel_url = release.get("html_url", f"https://github.com/{repo}/releases")
-            icon_url = "https://api.iconify.design/octicon/tag-16.svg?color=white"
 
             parsed.append({
-                "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="release" />',
+                "icon_type": "tag",
                 "action": "Release",
                 "repo_label": f"{repo_short} {tag_name}",
-                "repo_url": rel_url,
-                "detail_html": f'<a href="{rel_url}"><i>"{name_safe}"</i></a>',
+                "detail": name,
                 "sub": time_tag
             })
 
     return parsed
 
-def render_table(items):
-    # 3 rows x 2 columns:
-    # Row 0: item 0, item 3
-    # Row 1: item 1, item 4
-    # Row 2: item 2, item 5
-    if len(items) < 6:
-        while len(items) < 6:
-            items.append({
-                "icon_html": '<img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" />',
-                "action": "Idle",
-                "repo_label": "standby",
-                "repo_url": "#",
-                "detail_html": '<i>"Awaiting&nbsp;next&nbsp;deploy"</i>',
-                "sub": "READY"
-            })
+def generate_svg(items, output_path="assets/git-activity.svg"):
+    # Ensure 6 items
+    while len(items) < 6:
+        items.append({
+            "icon_type": "commit",
+            "action": "Idle",
+            "repo_label": "standby",
+            "detail": "Awaiting next deploy",
+            "sub": "READY"
+        })
 
-    rows = [
-        (items[0], items[3]),
-        (items[1], items[4]),
-        (items[2], items[5]),
+    # 3 rows x 2 cols (col 0: 0, 1, 2; col 1: 3, 4, 5)
+    cols = [
+        [items[0], items[1], items[2]],
+        [items[3], items[4], items[5]]
     ]
 
-    html = [
-        '<h3 align="center">Recent Git Activity</h3>',
+    width = 840
+    height = 230
+    
+    lines = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" fill="none">',
+        '  <style>',
+        '    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #ffffff; letter-spacing: 0.5px; }',
+        '    .action { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #ffffff; }',
+        '    .badge { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 10.5px; fill: #58a6ff; font-weight: 500; }',
+        '    .time { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 600; fill: #8b949e; }',
+        '    .detail { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #c9d1d9; }',
+        '  </style>',
+        f'  <rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="6" fill="#000000" stroke="#30363d" stroke-width="1" />',
         '',
-        '<table width="100%">',
+        '  <!-- Header -->',
+        f'  <svg x="330" y="16" width="16" height="16" viewBox="0 0 16 16">{ICONS["commit"]}</svg>',
+        '  <text x="420" y="30" text-anchor="middle" class="title">Recent Git Activity</text>',
+        '  <line x1="20" y1="45" x2="820" y2="45" stroke="#21262d" stroke-width="1" />',
+        '',
+        '  <!-- Middle Vertical Divider -->',
+        '  <line x1="420" y1="45" x2="420" y2="220" stroke="#21262d" stroke-width="1" />',
+        '',
+        '  <!-- Horizontal Row Dividers -->',
+        '  <line x1="25" y1="103" x2="405" y2="103" stroke="#161b22" stroke-width="1" />',
+        '  <line x1="435" y1="103" x2="815" y2="103" stroke="#161b22" stroke-width="1" />',
+        '  <line x1="25" y1="161" x2="405" y2="161" stroke="#161b22" stroke-width="1" />',
+        '  <line x1="435" y1="161" x2="815" y2="161" stroke="#161b22" stroke-width="1" />',
     ]
-    for idx, (left, right) in enumerate(rows):
-        # We put a 420px spacer in the first row to force the columns to lock at 420px each matching the snake
-        spacer_code = f'<img src="{SPACER}" width="420" height="1" alt="" /><br>' if idx == 0 else ""
-        html.append("  <tr>")
-        html.append(f'    <td width="50%" align="center">')
-        html.append(f'      {spacer_code}{left["icon_html"]} <b>{left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
-        html.append(f'      {left["detail_html"]}<br>')
-        html.append(f'      <sub>{left["sub"]}</sub>')
-        html.append(f'    </td>')
-        html.append(f'    <td width="50%" align="center">')
-        html.append(f'      {spacer_code}{right["icon_html"]} <b>{right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
-        html.append(f'      {right["detail_html"]}<br>')
-        html.append(f'      <sub>{right["sub"]}</sub>')
-        html.append(f'    </td>')
-        html.append("  </tr>")
-    html.append("</table>")
-    return "\n".join(html)
 
-def update_readme(table_html, readme_path="README.md"):
+    row_y_top = [73, 131, 189]
+    row_y_bot = [91, 149, 207]
+
+    col_config = [
+        {"x_start": 35, "x_time": 405},
+        {"x_start": 445, "x_time": 805}
+    ]
+
+    for col_idx in range(2):
+        cfg = col_config[col_idx]
+        x_start = cfg["x_start"]
+        x_time = cfg["x_time"]
+
+        for row_idx in range(3):
+            item = cols[col_idx][row_idx]
+            y_top = row_y_top[row_idx]
+            y_bot = row_y_bot[row_idx]
+
+            icon_path = ICONS.get(item["icon_type"], ICONS["commit"])
+            action = html.escape(item["action"])
+            repo_label = html.escape(item["repo_label"])
+            time_tag = html.escape(item["sub"])
+
+            detail = item["detail"]
+            if len(detail) > 46:
+                detail = detail[:43].strip() + "..."
+            detail_escaped = html.escape(f'"{detail}"')
+
+            # Dynamic pill positioning
+            action_width = len(action) * 7.5 + 4
+            x_action = x_start + 22
+            x_pill = x_action + action_width + 6
+            pill_width = len(repo_label) * 6.5 + 12
+
+            lines.append(f'  <!-- Item Col {col_idx} Row {row_idx} -->')
+            lines.append(f'  <svg x="{x_start}" y="{y_top - 12}" width="14" height="14" viewBox="0 0 16 16">{icon_path}</svg>')
+            lines.append(f'  <text x="{x_action}" y="{y_top}" class="action">{action}</text>')
+            lines.append(f'  <rect x="{x_pill}" y="{y_top - 11}" width="{pill_width:.1f}" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />')
+            lines.append(f'  <text x="{x_pill + pill_width/2:.1f}" y="{y_top + 1}" text-anchor="middle" class="badge">{repo_label}</text>')
+            lines.append(f'  <text x="{x_time}" y="{y_top}" text-anchor="end" class="time">{time_tag}</text>')
+            lines.append(f'  <text x="{x_action}" y="{y_bot}" class="detail">{detail_escaped}</text>')
+
+    lines.append('</svg>')
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"SVG generated successfully at {output_path}!")
+
+def update_readme(svg_rel_path="assets/git-activity.svg", readme_path="README.md"):
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
 
+    replacement = (
+        '<!-- START_ACTIVITY -->\n'
+        '<p align="center">\n'
+        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/git-activity.svg" alt="Recent Git Activity" />\n'
+        '</p>\n'
+        '<!-- END_ACTIVITY -->'
+    )
+
     pattern = r"<!-- START_ACTIVITY -->.*?<!-- END_ACTIVITY -->"
-    replacement = f"<!-- START_ACTIVITY -->\n{table_html}\n<!-- END_ACTIVITY -->"
     if "<!-- START_ACTIVITY -->" in content:
         new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     else:
@@ -233,5 +318,5 @@ if __name__ == "__main__":
     events = fetch_events()
     items = process_events(events)
     print(f"Processed {len(items)} items")
-    table = render_table(items)
-    update_readme(table, "README.md")
+    generate_svg(items, "assets/git-activity.svg")
+    update_readme("assets/git-activity.svg", "README.md")
