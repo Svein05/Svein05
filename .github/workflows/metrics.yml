@@ -1,0 +1,48 @@
+name: Generate Metrics
+
+on:
+  schedule:
+    # Runs every 12 hours
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Metrics - Activity & Stargazers
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
+          user: svein05
+          template: classic
+          base: ""
+          filename: github-metrics.svg
+          config_timezone: America/Santiago
+          config_theme: darkhub
+
+          # 1. Recent Activity
+          plugin_activity: yes
+          plugin_activity_limit: 5
+          plugin_activity_days: 14
+          plugin_activity_filter: all
+          plugin_activity_timestamps: yes
+
+          # 2. Stargazers (Classic Charts)
+          plugin_stargazers: yes
+          plugin_stargazers_charts_type: classic
+
+          # 3. Steam Profile and detailed game history
+          # (Requires STEAM_TOKEN secret and your numeric Steam ID 64)
+          plugin_steam: ${{ secrets.STEAM_TOKEN != '' && 'yes' || 'no' }}
+          plugin_steam_token: ${{ secrets.STEAM_TOKEN }}
+          plugin_steam_user: ${{ vars.STEAM_USER_ID || '0' }}
+          plugin_steam_sections: player, most-played, recently-played
+          plugin_steam_games_limit: 4
+          plugin_steam_recent_games_limit: 2
+          plugin_steam_playtime_threshold: 2

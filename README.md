@@ -56,7 +56,13 @@
   <img src="https://raw.githubusercontent.com/svein05/svein05/output/github-contribution-grid-snake-dark.svg" alt="Snake animation" />
 </p>
 
+## ⚡ Activity & Metrics
+<p align="center">
+  <img src="https://raw.githubusercontent.com/svein05/svein05/main/github-metrics.svg" alt="Metrics" />
+</p>
+
 ## 🎶 Listen with me
 <p align="center">
   <img src="https://lastfm-recently-played.vercel.app/api?user=xSvein&count=1&show_user=header&footer_style=normal_stats" />
 </p>
+
