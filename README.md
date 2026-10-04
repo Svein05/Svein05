@@ -46,44 +46,46 @@
 
 ## 📊 Github Stats
 <!-- START_ACTIVITY -->
+<div align="center">
 <table width="100%">
   <tr>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/Svein05"><code>Svein05:main</code></a><br>
-      <i>"fix: disable activity plugin to leave S..."</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/Svein05/commit/92ab3588006b8dabe8c9adc7d845041f0bda99a6"><code>92ab358</code></a> &bull; JUST NOW</sub>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/92ab3588006b8dabe8c9adc7d845041f0bda99a6"><i>"fix: disable activity plugin to leave Starg..."</i></a><br>
+      <sub>JUST NOW</sub>
     </td>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/Svein05"><code>Svein05:main</code></a><br>
-      <i>"feat: add workflows for snake and lowli..."</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/Svein05/commit/d5e17cbd1b7645746c34ff25e18bce526e44ba5b"><code>d5e17cb</code></a> &bull; JUST NOW</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/Svein05"><code>Svein05:main</code></a><br>
-      <i>"fix: set activity visibility to public"</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/Svein05/commit/9c386d729d8ea7d891ae3fa1e72d1e35ccce4a1f"><code>9c386d7</code></a> &bull; JUST NOW</sub>
-    </td>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/Svein05"><code>Svein05:main</code></a><br>
-      <i>"Update README.md"</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/Svein05/commit/1eb176aed5829dbf1dfac47aebed05e21663f7b1"><code>1eb176a</code></a> &bull; 1H AGO</sub>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/d5e17cbd1b7645746c34ff25e18bce526e44ba5b"><i>"feat: add workflows for snake and lowlighte..."</i></a><br>
+      <sub>1H AGO</sub>
     </td>
   </tr>
   <tr>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/Svein05"><code>Svein05:main</code></a><br>
-      <i>"fix: allow STEAM_USER_ID as secret or v..."</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><code>656b62c</code></a> &bull; JUST NOW</sub>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/9c386d729d8ea7d891ae3fa1e72d1e35ccce4a1f"><i>"fix: set activity visibility to public"</i></a><br>
+      <sub>JUST NOW</sub>
     </td>
-    <td width="50%" valign="top">
-      <b>[PUSH]</b> <a href="https://github.com/Svein05/NuvioLatinoSetup"><code>NuvioLatinoSetup:develop</code></a><br>
-      <i>"merge: feature/mobile-responsive-optimi..."</i><br>
-      <sub>HASH: <a href="https://github.com/Svein05/NuvioLatinoSetup/commit/5c7b9db627c1ec33487b82cbb769e08bdf9af091"><code>5c7b9db</code></a> &bull; YESTERDAY</sub>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/1eb176aed5829dbf1dfac47aebed05e21663f7b1"><i>"Update README.md"</i></a><br>
+      <sub>1H AGO</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><i>"fix: allow STEAM_USER_ID as secret or variable"</i></a><br>
+      <sub>JUST NOW</sub>
+    </td>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/NuvioLatinoSetup/tree/develop"><code>NuvioLatinoSetup:develop</code></a><br>
+      <a href="https://github.com/Svein05/NuvioLatinoSetup/commit/5c7b9db627c1ec33487b82cbb769e08bdf9af091"><i>"merge: feature/mobile-responsive-optimizati..."</i></a><br>
+      <sub>YESTERDAY</sub>
     </td>
   </tr>
 </table>
+</div>
 <!-- END_ACTIVITY -->
 <p align="center">
   <img src="https://raw.githubusercontent.com/svein05/svein05/output/github-contribution-grid-snake-dark.svg" alt="Snake animation" />

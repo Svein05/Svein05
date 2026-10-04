@@ -69,17 +69,18 @@ def process_events(events):
                 continue
             seen.add(unique_key)
             msg = fetch_commit_msg(repo, head)
-            if len(msg) > 42:
-                msg = msg[:39] + "..."
+            if len(msg) > 46:
+                msg = msg[:43] + "..."
             ref = payload.get("ref", "refs/heads/main").replace("refs/heads/", "")
+            commit_url = f"https://github.com/{repo}/commit/{head}"
             
             parsed.append({
-                "tag": "[PUSH]",
-                "repo": repo,
+                "icon": "🚀",
+                "action": "Push",
                 "repo_label": f"{repo_short}:{ref}",
-                "repo_url": f"https://github.com/{repo}",
-                "detail": f'"{msg}"',
-                "sub": f'HASH: <a href="https://github.com/{repo}/commit/{head}"><code>{short_sha}</code></a> &bull; {time_tag}'
+                "repo_url": f"https://github.com/{repo}/tree/{ref}",
+                "detail_html": f'<a href="{commit_url}"><i>"{msg}"</i></a>',
+                "sub": time_tag
             })
 
         elif etype == "PullRequestEvent":
@@ -87,76 +88,83 @@ def process_events(events):
             pr = payload.get("pull_request", {})
             pr_num = pr.get("number", "")
             pr_title = pr.get("title", "")
-            if len(pr_title) > 42:
-                pr_title = pr_title[:39] + "..."
+            if len(pr_title) > 46:
+                pr_title = pr_title[:43] + "..."
             pr_url = pr.get("html_url", f"https://github.com/{repo}/pull/{pr_num}")
             merged = pr.get("merged", False)
-            tag = "[MERGE]" if merged or action == "closed" else "[PR]"
+            icon = "🔀"
+            act_name = "Merge" if merged or action == "closed" else "PR"
             
             parsed.append({
-                "tag": tag,
-                "repo": repo,
+                "icon": icon,
+                "action": act_name,
                 "repo_label": f"{repo_short}#{pr_num}",
                 "repo_url": pr_url,
-                "detail": f'"{pr_title}"',
-                "sub": f'PR: <a href="{pr_url}"><code>#{pr_num}</code></a> &bull; {time_tag}'
+                "detail_html": f'<a href="{pr_url}"><i>"{pr_title}"</i></a>',
+                "sub": time_tag
             })
 
         elif etype == "CreateEvent":
             ref_type = payload.get("ref_type")
             ref_name = payload.get("ref") or repo_short
             if ref_type == "repository":
-                tag = "[INIT]"
+                icon = "✨"
+                act_name = "New Repo"
                 detail = '"Created public repository"'
+                link = f"https://github.com/{repo}"
             elif ref_type == "tag":
-                tag = "[TAG]"
+                icon = "🏷️"
+                act_name = "Tag"
                 detail = f'"Created tag {ref_name}"'
+                link = f"https://github.com/{repo}/releases/tag/{ref_name}"
             else:
-                tag = "[BRANCH]"
+                icon = "🌱"
+                act_name = "Branch"
                 detail = f'"Created branch {ref_name}"'
+                link = f"https://github.com/{repo}/tree/{ref_name}"
 
             parsed.append({
-                "tag": tag,
-                "repo": repo,
+                "icon": icon,
+                "action": act_name,
                 "repo_label": repo_short,
                 "repo_url": f"https://github.com/{repo}",
-                "detail": detail,
-                "sub": f'REF: <code>{ref_name}</code> &bull; {time_tag}'
+                "detail_html": f'<a href="{link}"><i>{detail}</i></a>',
+                "sub": time_tag
             })
 
         elif etype == "ReleaseEvent":
             release = payload.get("release", {})
             tag_name = release.get("tag_name", "")
             name = release.get("name") or tag_name
-            if len(name) > 42:
-                name = name[:39] + "..."
+            if len(name) > 46:
+                name = name[:43] + "..."
             rel_url = release.get("html_url", f"https://github.com/{repo}/releases")
 
             parsed.append({
-                "tag": "[RELEASE]",
-                "repo": repo,
+                "icon": "📦",
+                "action": "Release",
                 "repo_label": f"{repo_short} {tag_name}",
                 "repo_url": rel_url,
-                "detail": f'"{name}"',
-                "sub": f'TAG: <code>{tag_name}</code> &bull; {time_tag}'
+                "detail_html": f'<a href="{rel_url}"><i>"{name}"</i></a>',
+                "sub": time_tag
             })
 
     return parsed
 
 def render_table(items):
-    # We want 3 rows of 2 columns:
+    # 3 rows x 2 columns:
     # Row 0: item 0, item 3
     # Row 1: item 1, item 4
     # Row 2: item 2, item 5
     if len(items) < 6:
-        # pad if needed
         while len(items) < 6:
             items.append({
-                "tag": "[IDLE]",
+                "icon": "☕",
+                "action": "Idle",
                 "repo_label": "standby",
                 "repo_url": "#",
-                "detail": '"Awaiting next deploy"',
-                "sub": "STATUS: <code>READY</code> • NOW"
+                "detail_html": '<i>"Awaiting next deploy"</i>',
+                "sub": "READY"
             })
 
     rows = [
@@ -165,21 +173,22 @@ def render_table(items):
         (items[2], items[5]),
     ]
 
-    html = ['<table width="100%">']
+    html = ['<div align="center">', '<table width="100%">']
     for left, right in rows:
         html.append("  <tr>")
-        html.append(f'    <td width="50%" valign="top">')
-        html.append(f'      <b>{left["tag"]}</b> <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
-        html.append(f'      <i>{left["detail"]}</i><br>')
+        html.append(f'    <td width="50%" valign="top" align="center">')
+        html.append(f'      <b>{left["icon"]} {left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
+        html.append(f'      {left["detail_html"]}<br>')
         html.append(f'      <sub>{left["sub"]}</sub>')
         html.append(f'    </td>')
-        html.append(f'    <td width="50%" valign="top">')
-        html.append(f'      <b>{right["tag"]}</b> <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
-        html.append(f'      <i>{right["detail"]}</i><br>')
+        html.append(f'    <td width="50%" valign="top" align="center">')
+        html.append(f'      <b>{right["icon"]} {right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
+        html.append(f'      {right["detail_html"]}<br>')
         html.append(f'      <sub>{right["sub"]}</sub>')
         html.append(f'    </td>')
         html.append("  </tr>")
     html.append("</table>")
+    html.append("</div>")
     return "\n".join(html)
 
 def update_readme(table_html, readme_path="README.md"):
@@ -191,7 +200,6 @@ def update_readme(table_html, readme_path="README.md"):
     if "<!-- START_ACTIVITY -->" in content:
         new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     else:
-        # inject above stats widgets inside ## 📊 Github Stats
         target = "## 📊 Github Stats"
         if target in content:
             new_content = content.replace(target, f"{target}\n{replacement}")
@@ -208,5 +216,4 @@ if __name__ == "__main__":
     items = process_events(events)
     print(f"Processed {len(items)} items")
     table = render_table(items)
-    print("Generated Table:\n", table)
     update_readme(table, "README.md")
