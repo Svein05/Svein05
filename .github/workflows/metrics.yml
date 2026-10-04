@@ -22,7 +22,7 @@ jobs:
           user: svein05
           template: classic
           base: ""
-          filename: github-metrics-activity.svg
+          filename: assets/svg/github-metrics-activity.svg
           config_timezone: America/Santiago
           config_theme: darkhub
 
@@ -46,7 +46,7 @@ jobs:
           user: svein05
           template: classic
           base: ""
-          filename: github-metrics-steam.svg
+          filename: assets/svg/github-metrics-steam.svg
           config_timezone: America/Santiago
           config_theme: darkhub
 

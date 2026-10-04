@@ -232,7 +232,7 @@ def process_events(events):
 
     return parsed
 
-def generate_svg(items, output_path="assets/git-activity.svg"):
+def generate_svg(items, output_path="assets/svg/git-activity.svg"):
     # Ensure 6 items
     while len(items) < 6:
         items.append({
@@ -327,14 +327,14 @@ def generate_svg(items, output_path="assets/git-activity.svg"):
         f.write("\n".join(lines))
     print(f"SVG generated successfully at {output_path}!")
 
-def update_readme(svg_rel_path="assets/git-activity.svg", readme_path="README.md"):
+def update_readme(svg_rel_path="assets/svg/git-activity.svg", readme_path="README.md"):
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
 
     replacement = (
         '<!-- START_ACTIVITY -->\n'
         '<p align="center">\n'
-        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/git-activity.svg" alt="Recent Git Activity" />\n'
+        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg" alt="Recent Git Activity" />\n'
         '</p>\n'
         '<!-- END_ACTIVITY -->'
     )
@@ -358,5 +358,5 @@ if __name__ == "__main__":
     events = fetch_events()
     items = process_events(events)
     print(f"Processed {len(items)} items")
-    generate_svg(items, "assets/git-activity.svg")
-    update_readme("assets/git-activity.svg", "README.md")
+    generate_svg(items, "assets/svg/git-activity.svg")
+    update_readme("assets/svg/git-activity.svg", "README.md")

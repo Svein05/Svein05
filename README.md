@@ -51,12 +51,12 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/svein05/svein05/main/github-metrics-activity.svg" alt="Activity and Stargazers" />
+  <img src="https://raw.githubusercontent.com/svein05/svein05/main/assets/svg/github-metrics-activity.svg" alt="Activity and Stargazers" />
 </p>
 
 <!-- START_ACTIVITY -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/git-activity.svg" alt="Recent Git Activity" />
+  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg" alt="Recent Git Activity" />
 </p>
 <!-- END_ACTIVITY -->
 
@@ -72,7 +72,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/svein05/svein05/main/github-metrics-steam.svg" alt="Steam Gaming" />
+  <img src="https://raw.githubusercontent.com/svein05/svein05/main/assets/svg/github-metrics-steam.svg" alt="Steam Gaming" />
 </p>
 
 
