@@ -69,9 +69,9 @@ def process_events(events):
                 continue
             seen.add(unique_key)
             msg = fetch_commit_msg(repo, head)
-            # Strictly limit to 30 chars so it NEVER wraps onto 2 lines
-            if len(msg) > 30:
-                msg = msg[:27].strip() + "..."
+            # Max 36 chars with <nobr> ensures exactly 1 single line across all screens
+            if len(msg) > 36:
+                msg = msg[:33].strip() + "..."
             ref = payload.get("ref", "refs/heads/main").replace("refs/heads/", "")
             commit_url = f"https://github.com/{repo}/commit/{head}"
             icon_url = "https://api.iconify.design/octicon/git-commit-16.svg?color=white"
@@ -90,8 +90,8 @@ def process_events(events):
             pr = payload.get("pull_request", {})
             pr_num = pr.get("number", "")
             pr_title = pr.get("title", "")
-            if len(pr_title) > 30:
-                pr_title = pr_title[:27].strip() + "..."
+            if len(pr_title) > 36:
+                pr_title = pr_title[:33].strip() + "..."
             pr_url = pr.get("html_url", f"https://github.com/{repo}/pull/{pr_num}")
             merged = pr.get("merged", False)
             if merged or action == "closed":
@@ -129,8 +129,8 @@ def process_events(events):
                 detail = f'"Branch {ref_name}"'
                 link = f"https://github.com/{repo}/tree/{ref_name}"
 
-            if len(detail) > 30:
-                detail = detail[:27].strip() + '..."'
+            if len(detail) > 36:
+                detail = detail[:33].strip() + '..."'
 
             parsed.append({
                 "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="{act_name}" />',
@@ -145,8 +145,8 @@ def process_events(events):
             release = payload.get("release", {})
             tag_name = release.get("tag_name", "")
             name = release.get("name") or tag_name
-            if len(name) > 30:
-                name = name[:27].strip() + "..."
+            if len(name) > 36:
+                name = name[:33].strip() + "..."
             rel_url = release.get("html_url", f"https://github.com/{repo}/releases")
             icon_url = "https://api.iconify.design/octicon/tag-16.svg?color=white"
 
@@ -183,26 +183,26 @@ def render_table(items):
         (items[2], items[5]),
     ]
 
+    # Without wrapping <div align="center"> so <table width="100%"> spans the full container width matching the Snake!
     html = [
-        '<div align="center">',
-        '  <h3 align="center">Recent Git Activity</h3>',
-        '  <table width="100%">',
+        '<h3 align="center">Recent Git Activity</h3>',
+        '',
+        '<table width="100%">',
     ]
     for left, right in rows:
-        html.append("    <tr>")
-        html.append(f'      <td width="50%" valign="top" align="center">')
-        html.append(f'        {left["icon_html"]} <b>{left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
-        html.append(f'        {left["detail_html"]}<br>')
-        html.append(f'        <sub>{left["sub"]}</sub>')
-        html.append(f'      </td>')
-        html.append(f'      <td width="50%" valign="top" align="center">')
-        html.append(f'        {right["icon_html"]} <b>{right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
-        html.append(f'        {right["detail_html"]}<br>')
-        html.append(f'        <sub>{right["sub"]}</sub>')
-        html.append(f'      </td>')
-        html.append("    </tr>")
-    html.append("  </table>")
-    html.append("</div>")
+        html.append("  <tr>")
+        html.append(f'    <td width="50%" align="center">')
+        html.append(f'      {left["icon_html"]} <b>{left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
+        html.append(f'      <nobr>{left["detail_html"]}</nobr><br>')
+        html.append(f'      <sub>{left["sub"]}</sub>')
+        html.append(f'    </td>')
+        html.append(f'    <td width="50%" align="center">')
+        html.append(f'      {right["icon_html"]} <b>{right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
+        html.append(f'      <nobr>{right["detail_html"]}</nobr><br>')
+        html.append(f'      <sub>{right["sub"]}</sub>')
+        html.append(f'    </td>')
+        html.append("  </tr>")
+    html.append("</table>")
     return "\n".join(html)
 
 def update_readme(table_html, readme_path="README.md"):
