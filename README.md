@@ -51,6 +51,18 @@
   <tr>
     <td width="50%" valign="top" align="center">
       <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/de6090328daccaac8b53958652a7fce61f9d8766"><i>"style: center activity table, add clean ico..."</i></a><br>
+      <sub>JUST NOW</sub>
+    </td>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
+      <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><i>"fix: allow STEAM_USER_ID as secret or variable"</i></a><br>
+      <sub>JUST NOW</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
       <a href="https://github.com/Svein05/Svein05/commit/92ab3588006b8dabe8c9adc7d845041f0bda99a6"><i>"fix: disable activity plugin to leave Starg..."</i></a><br>
       <sub>JUST NOW</sub>
     </td>
@@ -70,18 +82,6 @@
       <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
       <a href="https://github.com/Svein05/Svein05/commit/1eb176aed5829dbf1dfac47aebed05e21663f7b1"><i>"Update README.md"</i></a><br>
       <sub>1H AGO</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top" align="center">
-      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
-      <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><i>"fix: allow STEAM_USER_ID as secret or variable"</i></a><br>
-      <sub>JUST NOW</sub>
-    </td>
-    <td width="50%" valign="top" align="center">
-      <b>🚀 Push</b> &nbsp; <a href="https://github.com/Svein05/NuvioLatinoSetup/tree/develop"><code>NuvioLatinoSetup:develop</code></a><br>
-      <a href="https://github.com/Svein05/NuvioLatinoSetup/commit/5c7b9db627c1ec33487b82cbb769e08bdf9af091"><i>"merge: feature/mobile-responsive-optimizati..."</i></a><br>
-      <sub>YESTERDAY</sub>
     </td>
   </tr>
 </table>
