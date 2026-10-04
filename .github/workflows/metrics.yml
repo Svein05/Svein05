@@ -30,13 +30,8 @@ jobs:
           plugin_stargazers: yes
           plugin_stargazers_charts_type: classic
 
-          # Recent Activity
-          plugin_activity: yes
-          plugin_activity_limit: 4
-          plugin_activity_days: 0
-          plugin_activity_visibility: public
-          plugin_activity_filter: push, issue, pr, release, fork
-          plugin_activity_timestamps: yes
+          # Recent Activity (Disabled due to upstream GitHub API bug with PushEvent null commits)
+          plugin_activity: no
 
   metrics-steam:
     needs: metrics-github
