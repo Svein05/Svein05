@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 
 USERNAME = "svein05"
 TOKEN = os.environ.get("METRICS_TOKEN") or os.environ.get("GITHUB_TOKEN")
+SPACER = "https://raw.githubusercontent.com/Svein05/Svein05/main/assets/spacer.svg"
 
 def get_headers():
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -69,9 +70,10 @@ def process_events(events):
                 continue
             seen.add(unique_key)
             msg = fetch_commit_msg(repo, head)
-            # Max 36 chars with <nobr> ensures exactly 1 single line across all screens
-            if len(msg) > 36:
-                msg = msg[:33].strip() + "..."
+            if len(msg) > 34:
+                msg = msg[:31].strip() + "..."
+            # Replace spaces with &nbsp; so browser CANNOT break line
+            msg_safe = msg.replace(" ", "&nbsp;")
             ref = payload.get("ref", "refs/heads/main").replace("refs/heads/", "")
             commit_url = f"https://github.com/{repo}/commit/{head}"
             icon_url = "https://api.iconify.design/octicon/git-commit-16.svg?color=white"
@@ -81,7 +83,7 @@ def process_events(events):
                 "action": "Push",
                 "repo_label": f"{repo_short}:{ref}",
                 "repo_url": f"https://github.com/{repo}/tree/{ref}",
-                "detail_html": f'<a href="{commit_url}"><i>"{msg}"</i></a>',
+                "detail_html": f'<a href="{commit_url}"><i>"{msg_safe}"</i></a>',
                 "sub": time_tag
             })
 
@@ -90,8 +92,9 @@ def process_events(events):
             pr = payload.get("pull_request", {})
             pr_num = pr.get("number", "")
             pr_title = pr.get("title", "")
-            if len(pr_title) > 36:
-                pr_title = pr_title[:33].strip() + "..."
+            if len(pr_title) > 34:
+                pr_title = pr_title[:31].strip() + "..."
+            pr_title_safe = pr_title.replace(" ", "&nbsp;")
             pr_url = pr.get("html_url", f"https://github.com/{repo}/pull/{pr_num}")
             merged = pr.get("merged", False)
             if merged or action == "closed":
@@ -106,7 +109,7 @@ def process_events(events):
                 "action": act_name,
                 "repo_label": f"{repo_short}#{pr_num}",
                 "repo_url": pr_url,
-                "detail_html": f'<a href="{pr_url}"><i>"{pr_title}"</i></a>',
+                "detail_html": f'<a href="{pr_url}"><i>"{pr_title_safe}"</i></a>',
                 "sub": time_tag
             })
 
@@ -129,15 +132,14 @@ def process_events(events):
                 detail = f'"Branch {ref_name}"'
                 link = f"https://github.com/{repo}/tree/{ref_name}"
 
-            if len(detail) > 36:
-                detail = detail[:33].strip() + '..."'
+            detail_safe = detail.replace(" ", "&nbsp;")
 
             parsed.append({
                 "icon_html": f'<img src="{icon_url}" width="14" height="14" valign="middle" alt="{act_name}" />',
                 "action": act_name,
                 "repo_label": repo_short,
                 "repo_url": f"https://github.com/{repo}",
-                "detail_html": f'<a href="{link}"><i>{detail}</i></a>',
+                "detail_html": f'<a href="{link}"><i>{detail_safe}</i></a>',
                 "sub": time_tag
             })
 
@@ -145,8 +147,9 @@ def process_events(events):
             release = payload.get("release", {})
             tag_name = release.get("tag_name", "")
             name = release.get("name") or tag_name
-            if len(name) > 36:
-                name = name[:33].strip() + "..."
+            if len(name) > 34:
+                name = name[:31].strip() + "..."
+            name_safe = name.replace(" ", "&nbsp;")
             rel_url = release.get("html_url", f"https://github.com/{repo}/releases")
             icon_url = "https://api.iconify.design/octicon/tag-16.svg?color=white"
 
@@ -155,7 +158,7 @@ def process_events(events):
                 "action": "Release",
                 "repo_label": f"{repo_short} {tag_name}",
                 "repo_url": rel_url,
-                "detail_html": f'<a href="{rel_url}"><i>"{name}"</i></a>',
+                "detail_html": f'<a href="{rel_url}"><i>"{name_safe}"</i></a>',
                 "sub": time_tag
             })
 
@@ -173,7 +176,7 @@ def render_table(items):
                 "action": "Idle",
                 "repo_label": "standby",
                 "repo_url": "#",
-                "detail_html": '<i>"Awaiting next deploy"</i>',
+                "detail_html": '<i>"Awaiting&nbsp;next&nbsp;deploy"</i>',
                 "sub": "READY"
             })
 
@@ -183,22 +186,23 @@ def render_table(items):
         (items[2], items[5]),
     ]
 
-    # Without wrapping <div align="center"> so <table width="100%"> spans the full container width matching the Snake!
     html = [
         '<h3 align="center">Recent Git Activity</h3>',
         '',
         '<table width="100%">',
     ]
-    for left, right in rows:
+    for idx, (left, right) in enumerate(rows):
+        # We put a 420px spacer in the first row to force the columns to lock at 420px each matching the snake
+        spacer_code = f'<img src="{SPACER}" width="420" height="1" alt="" /><br>' if idx == 0 else ""
         html.append("  <tr>")
         html.append(f'    <td width="50%" align="center">')
-        html.append(f'      {left["icon_html"]} <b>{left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
-        html.append(f'      <nobr>{left["detail_html"]}</nobr><br>')
+        html.append(f'      {spacer_code}{left["icon_html"]} <b>{left["action"]}</b> &nbsp; <a href="{left["repo_url"]}"><code>{left["repo_label"]}</code></a><br>')
+        html.append(f'      {left["detail_html"]}<br>')
         html.append(f'      <sub>{left["sub"]}</sub>')
         html.append(f'    </td>')
         html.append(f'    <td width="50%" align="center">')
-        html.append(f'      {right["icon_html"]} <b>{right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
-        html.append(f'      <nobr>{right["detail_html"]}</nobr><br>')
+        html.append(f'      {spacer_code}{right["icon_html"]} <b>{right["action"]}</b> &nbsp; <a href="{right["repo_url"]}"><code>{right["repo_label"]}</code></a><br>')
+        html.append(f'      {right["detail_html"]}<br>')
         html.append(f'      <sub>{right["sub"]}</sub>')
         html.append(f'    </td>')
         html.append("  </tr>")
