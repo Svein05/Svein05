@@ -58,7 +58,7 @@
       <td width="50%" valign="top" align="center">
         <img src="https://api.iconify.design/octicon/git-commit-16.svg?color=white" width="14" height="14" valign="middle" alt="commit" /> <b>Push</b> &nbsp; <a href="https://github.com/Svein05/Svein05/tree/main"><code>Svein05:main</code></a><br>
         <a href="https://github.com/Svein05/Svein05/commit/656b62c85af59f4fbd4db06760cd30d33e381eb3"><i>"fix: allow STEAM_USER_ID as..."</i></a><br>
-        <sub>JUST NOW</sub>
+        <sub>1H AGO</sub>
       </td>
     </tr>
     <tr>
