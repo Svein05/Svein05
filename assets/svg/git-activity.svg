@@ -26,41 +26,41 @@
   <text x="57" y="73" class="action">Push</text>
   <rect x="97.0" y="62" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="171.2" y="74" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
-  <text x="405" y="73" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="57" y="91" class="detail">&quot;merge: fix python setup in release workflow...&quot;</text>
+  <text x="405" y="73" text-anchor="end" class="time">4H AGO</text>
+  <text x="57" y="91" class="detail">&quot;merge: develop into main (icon color, step...&quot;</text>
   <!-- Item Col 0 Row 1 -->
   <svg x="35" y="119" width="14" height="14" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/></svg>
   <text x="57" y="131" class="action">Push</text>
   <rect x="97.0" y="120" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="181.0" y="132" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
-  <text x="405" y="131" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="57" y="149" class="detail">&quot;merge: bugfix/fix-release-python-cache into...&quot;</text>
+  <text x="405" y="131" text-anchor="end" class="time">6H AGO</text>
+  <text x="57" y="149" class="detail">&quot;merge: bugfix/fix-debrid-modal-and-responsi...&quot;</text>
   <!-- Item Col 0 Row 2 -->
   <svg x="35" y="177" width="14" height="14" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/></svg>
   <text x="57" y="189" class="action">Push</text>
   <rect x="97.0" y="178" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="171.2" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
-  <text x="405" y="189" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="57" y="207" class="detail">&quot;merge: fix release workflow into main&quot;</text>
+  <text x="405" y="189" text-anchor="end" class="time">6H AGO</text>
+  <text x="57" y="207" class="detail">&quot;merge: develop into main (password sync, ey...&quot;</text>
   <!-- Item Col 1 Row 0 -->
   <svg x="445" y="61" width="14" height="14" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/></svg>
   <text x="467" y="73" class="action">Push</text>
   <rect x="507.0" y="62" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="591.0" y="74" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
-  <text x="805" y="73" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="467" y="91" class="detail">&quot;merge: bugfix/fix-release-workflow into dev...&quot;</text>
+  <text x="805" y="73" text-anchor="end" class="time">8H AGO</text>
+  <text x="467" y="91" class="detail">&quot;fix(meta): update discord embed description...&quot;</text>
   <!-- Item Col 1 Row 1 -->
   <svg x="445" y="119" width="14" height="14" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/></svg>
   <text x="467" y="131" class="action">Push</text>
-  <rect x="507.0" y="120" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
-  <text x="581.2" y="132" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
+  <rect x="507.0" y="120" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
+  <text x="591.0" y="132" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
   <text x="805" y="131" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="467" y="149" class="detail">&quot;merge: release v1.5.0 into main&quot;</text>
+  <text x="467" y="149" class="detail">&quot;merge: bugfix/fix-release-python-cache into...&quot;</text>
   <!-- Item Col 1 Row 2 -->
   <svg x="445" y="177" width="14" height="14" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43.75a4.002 4.002 0 01-7.86 0H.75a.75.75 0 110-1.5h3.32a4.002 4.002 0 017.86 0h3.32a.75.75 0 110 1.5h-3.32z" fill="#ffffff"/></svg>
   <text x="467" y="189" class="action">Push</text>
-  <rect x="507.0" y="178" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
-  <text x="591.0" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
+  <rect x="507.0" y="178" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
+  <text x="581.2" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
   <text x="805" y="189" text-anchor="end" class="time">YESTERDAY</text>
-  <text x="467" y="207" class="detail">&quot;merge: release/v1.5.0 into develop&quot;</text>
+  <text x="467" y="207" class="detail">&quot;merge: fix python setup in release workflow...&quot;</text>
 </svg>
