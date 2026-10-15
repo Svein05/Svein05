@@ -61,6 +61,6 @@
   <text x="467" y="189" class="action">Push</text>
   <rect x="507.0" y="178" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="591.0" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
-  <text x="805" y="189" text-anchor="end" class="time">7D AGO</text>
+  <text x="805" y="189" text-anchor="end" class="time">8D AGO</text>
   <text x="467" y="207" class="detail">&quot;merge: bugfix/fix-debrid-modal-and-responsi...&quot;</text>
 </svg>
