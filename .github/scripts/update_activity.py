@@ -267,7 +267,7 @@ def generate_svg(items, output_path="assets/svg/git-activity.svg"):
         '    .time { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 600; fill: #8b949e; }',
         '    .detail { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #c9d1d9; }',
         '  </style>',
-        f'  <rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="6" fill="#000000" stroke="#ffffff" stroke-width="1" />',
+        f'  <rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="6" fill="#000000" stroke="#444" stroke-width="1" />',
         '',
         '  <!-- Header -->',
         f'  <svg x="326" y="15" width="16" height="16" viewBox="0 0 24 24">{ICONS["git"]}</svg>',
