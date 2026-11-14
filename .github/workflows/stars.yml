@@ -12,7 +12,7 @@ on:
       - .github/workflows/stars.yml
 
 concurrency:
-  group: profile-generated-assets
+  group: profile-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
