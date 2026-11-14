@@ -232,6 +232,12 @@ def process_events(events):
 
     return parsed
 
+def fit_label(text, width, char_width=6.5):
+    """Fit a monospace label before XML escaping; reserve room for an ellipsis."""
+    capacity = max(1, int(width // char_width))
+    return text if len(text) <= capacity else text[:capacity - 1] + "…"
+
+
 def generate_svg(items, output_path="assets/svg/git-activity.svg"):
     # Ensure 6 items
     while len(items) < 6:
@@ -298,7 +304,7 @@ def generate_svg(items, output_path="assets/svg/git-activity.svg"):
 
             icon_path = ICONS.get(item["icon_type"], ICONS["commit"])
             action = html.escape(item["action"])
-            repo_label = html.escape(item["repo_label"])
+            full_repo_label = item["repo_label"]
             time_tag = html.escape(item["sub"])
 
             detail = item["detail"]
@@ -310,15 +316,22 @@ def generate_svg(items, output_path="assets/svg/git-activity.svg"):
             action_width = len(action) * 7.5 + 4
             x_action = x_start + 22
             x_pill = x_action + action_width + 6
-            pill_width = len(repo_label) * 6.5 + 12
+            # Keep timestamps in a dedicated 70px area, with a 12px gap.
+            max_pill_width = x_time - 70 - 12 - x_pill
+            repo_label = html.escape(fit_label(full_repo_label, max_pill_width - 12))
+            pill_width = min(len(full_repo_label) * 6.5 + 12, max_pill_width)
 
             lines.append(f'  <!-- Item Col {col_idx} Row {row_idx} -->')
+            clip_id = f'detail-{col_idx}-{row_idx}'
+            lines.append(f'  <defs><clipPath id="{clip_id}"><rect x="{x_action}" y="{y_bot - 14}" width="{x_time - x_action}" height="20" /></clipPath></defs>')
             lines.append(f'  <svg x="{x_start}" y="{y_top - 12}" width="14" height="14" viewBox="0 0 16 16">{icon_path}</svg>')
             lines.append(f'  <text x="{x_action}" y="{y_top}" class="action">{action}</text>')
+            lines.append(f'  <g><title>{html.escape(full_repo_label)}</title>')
             lines.append(f'  <rect x="{x_pill}" y="{y_top - 11}" width="{pill_width:.1f}" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />')
             lines.append(f'  <text x="{x_pill + pill_width/2:.1f}" y="{y_top + 1}" text-anchor="middle" class="badge">{repo_label}</text>')
+            lines.append('  </g>')
             lines.append(f'  <text x="{x_time}" y="{y_top}" text-anchor="end" class="time">{time_tag}</text>')
-            lines.append(f'  <text x="{x_action}" y="{y_bot}" class="detail">{detail_escaped}</text>')
+            lines.append(f'  <text x="{x_action}" y="{y_bot}" class="detail" clip-path="url(#{clip_id})">{detail_escaped}</text>')
 
     lines.append('</svg>')
 

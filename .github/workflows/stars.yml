@@ -1,0 +1,44 @@
+name: Update Stargazers
+
+on:
+  schedule:
+    # Daily at 22:47 / 23:47 in Santiago (standard / summer time).
+    - cron: "47 2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/update_stars.py
+      - .github/workflows/stars.yml
+
+concurrency:
+  group: profile-generated-assets
+  cancel-in-progress: false
+
+jobs:
+  stars:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate monthly stargazers
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROFILE_USERNAME: ${{ github.repository_owner }}
+        run: python .github/scripts/update_stars.py
+      - name: Publish generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/svg/stargazers.svg assets/data/stars-history.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update monthly stargazers [skip ci]"
+            git pull --no-rebase --no-edit origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

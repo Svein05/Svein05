@@ -51,7 +51,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/svein05/svein05/main/assets/svg/github-metrics-activity.svg" alt="Activity and Stargazers" />
+  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/stargazers.svg" alt="Monthly stargazers: cumulative stars and daily changes" width="840" />
 </p>
 
 <!-- START_ACTIVITY -->
