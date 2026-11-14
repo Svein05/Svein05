@@ -83,6 +83,14 @@ class StarsTests(unittest.TestCase):
         self.assertEqual(xml.findall('s:circle', NS), [])
         self.assertIn("No changes this month", svg)
 
+    def test_latest_change_stays_at_right_edge_with_trailing_idle_days(self):
+        record = {"baseline": 9, "days": {"2026-11-01": 9, "2026-11-14": 10, "2026-11-15": 10}}
+        xml = ET.fromstring(stars.chart_svg(record, "A", "A", date("2026-11-15T23:00")))
+        point = xml.find('s:circle', NS)
+        self.assertEqual(point.attrib["cx"], "696.00")
+        tick = next(t for t in xml.findall('s:text', NS) if t.text == "14")
+        self.assertEqual(tick.attrib["x"], point.attrib["cx"])
+
     def test_pagination_collects_all_repositories(self):
         from io import BytesIO
         responses = [BytesIO(json.dumps([{"id": i} for i in range(100)]).encode()), BytesIO(b'[{"id": 100}]')]

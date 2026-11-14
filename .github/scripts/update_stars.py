@@ -1,5 +1,4 @@
 """Generate the monthly profile chart from public repository stars and daily snapshots."""
-import calendar
 import html
 import json
 import os
@@ -104,7 +103,7 @@ def integer_ticks(low, high):
     return sorted({low + (high - low) * i // 4 for i in range(5)})
 
 
-def chart_svg(record, most, latest, now):
+def chart_svg(record, most, latest, now, counts=None):
     # Match the approved 736px preview's logical dimensions, then render at 840px.
     # This preserves its typography and proportions when embedded in the README.
     width, height = 736, 360
@@ -116,30 +115,37 @@ def chart_svg(record, most, latest, now):
     low = min(baseline, *(value for _, value in daily))
     high = max(baseline, *(value for _, value in daily))
     left = max(left, 28 + len(str(high)) * 8)
-    last_day = calendar.monthrange(now.year, now.month)[1]
-    x = lambda day: left + (day - 1) * (right - left) / (last_day - 1)
+    previous = baseline
+    change_days = []
+    for day, value in daily:
+        if value != previous:
+            change_days.append(day)
+        previous = value
+    last_day = change_days[-1] if change_days else daily[-1][0]
+    daily = [(day, value) for day, value in daily if day <= last_day]
+    x = lambda day: right if last_day == 1 else left + (day - 1) * (right - left) / (last_day - 1)
     y = lambda value: (top + bottom) / 2 if high == low else bottom - (value - low) * (bottom - top) / (high - low)
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="411" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
            f'<title id="title">Stargazers - {MONTHS[now.month]}</title>',
            f'<desc id="desc">{total} total stars. Daily cumulative stars in {MONTHS[now.month]} {now.year}, starting at {baseline}. Updated {now.date()} in America/Santiago.</desc>',
            '<style>text{font-family:"Segoe UI",sans-serif;fill:#eee}.meta{font-size:13px}.axis,.delta{font-family:Consolas,monospace;font-size:12px;fill:#aaa}.delta{fill:#fff;font-weight:600}</style>',
            '<rect x=".5" y=".5" width="735" height="359" rx="9" fill="#000" stroke="#444"/>',
-           f'<text x="24" y="49" font-size="17" font-weight="600">Stargazers - {MONTHS[now.month]}</text>',
-           f'<text x="700" y="52" text-anchor="end" font-weight="600"><tspan font-size="36">☆</tspan><tspan dx="9" font-size="30">{total}</tspan></text>']
+           f'<text x="24" y="49" font-size="20" font-weight="600">Stargazers - {MONTHS[now.month]}</text>',
+           f'<text x="700" y="52" text-anchor="end" font-weight="600"><tspan font-size="36">★</tspan><tspan dx="9" font-size="30">{total}</tspan></text>']
     # Native inline text flow reproduces the preview's 24px gap, rather than
     # spreading the two summaries into separate fixed columns.
     def short_name(name):
         return html.escape(name if len(name) <= 28 else name[:27] + "…")
 
+    counts = counts or {}
     out.append(f'<text x="24" y="92" class="meta"><title>{html.escape(f"Most starred: {most}; Latest starred: {latest}")}</title>'
-               f'<tspan fill="#999">Most starred:</tspan> {short_name(most)}'
-               f'<tspan dx="24" fill="#999">Latest starred:</tspan> {short_name(latest)}</text>')
+               f'<tspan fill="#999">Most starred:</tspan> {short_name(most)} <tspan>☆ {counts.get(most, "—")}</tspan>'
+               f'<tspan dx="24" fill="#999">Latest starred:</tspan> {short_name(latest)} <tspan>☆ {counts.get(latest, "—")}</tspan></text>')
     for tick in integer_ticks(low, high):
         yy = y(tick)
         out.extend([f'<line x1="{left}" y1="{yy:.2f}" x2="{right}" y2="{yy:.2f}" stroke="#222"/>',
                     f'<text x="{left - 14}" y="{yy + 4:.2f}" text-anchor="end" class="axis">{tick}</text>'])
-    points = [(1, baseline)] + daily
-    path = " ".join(f'{"M" if i == 0 else "L"}{x(day):.2f},{y(value):.2f}' for i, (day, value) in enumerate(points))
+    path = f'M{left},{y(baseline):.2f} ' + " ".join(f'L{x(day):.2f},{y(value):.2f}' for day, value in daily)
     out.append(f'<path d="{path} L{x(daily[-1][0]):.2f},{bottom} L{left},{bottom} Z" fill="#fff" opacity=".035"/>')
     out.append(f'<path d="{path}" fill="none" stroke="#eee" stroke-width="2" stroke-linejoin="round"/>')
     previous = baseline
@@ -167,7 +173,7 @@ def main():
     counts, events = fetch_stars(username, get_token())
     history = json.loads(HISTORY.read_text(encoding="utf-8")) if HISTORY.exists() else {"version": 1, "months": {}}
     record, most, latest = build_month(history, counts, events, now)
-    svg = chart_svg(record, most, latest, now)
+    svg = chart_svg(record, most, latest, now, counts)
     HISTORY.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(svg, encoding="utf-8")

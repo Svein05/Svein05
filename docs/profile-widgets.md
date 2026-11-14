@@ -8,10 +8,14 @@ contribution snake and above Recent Git Activity. The previous Metrics stargazer
 widget and its generation job have been replaced; Steam metrics remain separate.
 
 - English heading: `Stargazers - <current month>`, with the global total at top right.
-- `Most starred` and `Latest starred` share one row. Ties for most stars use the
+- `Most starred` and `Latest starred` share one row, each followed by an outlined
+  star and that repository's own star count. The global total uses a filled star.
+  Ties for most stars use the
   repository name alphabetically; latest uses the newest surviving star timestamp.
-- The horizontal scale reserves one position for each calendar day of the current
-  month, including future dates, using `America/Santiago`.
+- The horizontal scale uses calendar days of the current month in
+  `America/Santiago`, ending at the most recent day with changes. The latest
+  change always sits at the right edge; earlier dates rescale when a new change
+  arrives. Future days and trailing unchanged days take no horizontal space.
 - Only days with changes have a point, a signed delta and a date directly below
   that point. Unchanged days extend the line without adding markers.
 - The vertical scale normally starts at the previous month's closing total and
