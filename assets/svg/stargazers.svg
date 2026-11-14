@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="350" viewBox="0 0 840 350" role="img" aria-labelledby="title desc">
+<title id="title">Stargazers - November</title>
+<desc id="desc">10 total stars. Daily cumulative stars in November 2026, starting at 9. Updated 2026-11-14 in America/Santiago.</desc>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:#fff}.meta{font-size:13px}.axis{font-size:11px;fill:#aeb6bf}.delta{font-size:11px;font-weight:600}</style>
+<rect x=".5" y=".5" width="839" height="349" rx="8" fill="#000" stroke="#aaa"/>
+<text x="28" y="43" font-size="17" font-weight="600">Stargazers - November</text>
+<text x="800" y="47" text-anchor="end" font-size="30" font-weight="600">☆ 10</text>
+<text x="28" y="82" class="meta"><title>Most starred: NuvioLatinoSetup</title>Most starred: NuvioLatinoSetup</text>
+<text x="425" y="82" class="meta"><title>Latest starred: NuvioLatinoSetup</title>Latest starred: NuvioLatinoSetup</text>
+<line x1="60" y1="300.00" x2="800" y2="300.00" stroke="#222"/>
+<text x="46" y="304.00" text-anchor="end" class="axis">9</text>
+<line x1="60" y1="135.00" x2="800" y2="135.00" stroke="#222"/>
+<text x="46" y="139.00" text-anchor="end" class="axis">10</text>
+<path d="M60.00,300.00 L60.00,300.00 L85.52,300.00 L111.03,300.00 L136.55,300.00 L162.07,300.00 L187.59,300.00 L213.10,300.00 L238.62,300.00 L264.14,300.00 L289.66,300.00 L315.17,300.00 L340.69,300.00 L366.21,300.00 L391.72,135.00 L391.72,300 L60,300 Z" fill="#fff" opacity=".035"/>
+<path d="M60.00,300.00 L60.00,300.00 L85.52,300.00 L111.03,300.00 L136.55,300.00 L162.07,300.00 L187.59,300.00 L213.10,300.00 L238.62,300.00 L264.14,300.00 L289.66,300.00 L315.17,300.00 L340.69,300.00 L366.21,300.00 L391.72,135.00" fill="none" stroke="#eee" stroke-width="2" stroke-linejoin="round"/>
+<line x1="391.72" y1="142.00" x2="391.72" y2="306" stroke="#333" stroke-dasharray="2 4"/>
+<circle cx="391.72" cy="135.00" r="4" fill="#000" stroke="#fff" stroke-width="2"><title>November 14: +1; 10 total stars</title></circle>
+<text x="391.72" y="121.00" text-anchor="middle" class="delta">+1</text>
+<text x="391.72" y="325" text-anchor="middle" class="axis">14</text>
+</svg>

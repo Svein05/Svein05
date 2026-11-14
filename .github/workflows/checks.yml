@@ -1,0 +1,24 @@
+name: Profile checks
+
+on:
+  push:
+    paths:
+      - .github/scripts/**
+      - .github/workflows/**
+  pull_request:
+    paths:
+      - .github/scripts/**
+      - .github/workflows/**
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m unittest discover -s .github/scripts -p 'test_*.py'
