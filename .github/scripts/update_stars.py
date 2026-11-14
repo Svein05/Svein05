@@ -105,8 +105,10 @@ def integer_ticks(low, high):
 
 
 def chart_svg(record, most, latest, now):
-    width, height = 840, 350
-    left, right, top, bottom = 60, 800, 135, 300
+    # Match the approved 736px preview's logical dimensions, then render at 840px.
+    # This preserves its typography and proportions when embedded in the README.
+    width, height = 736, 360
+    left, right, top, bottom = 56, 696, 138, 304
     baseline = record["baseline"]
     daily = sorted((int(date[-2:]), value) for date, value in record["days"].items())
     total = daily[-1][1]
@@ -117,18 +119,21 @@ def chart_svg(record, most, latest, now):
     last_day = calendar.monthrange(now.year, now.month)[1]
     x = lambda day: left + (day - 1) * (right - left) / (last_day - 1)
     y = lambda value: (top + bottom) / 2 if high == low else bottom - (value - low) * (bottom - top) / (high - low)
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="411" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
            f'<title id="title">Stargazers - {MONTHS[now.month]}</title>',
            f'<desc id="desc">{total} total stars. Daily cumulative stars in {MONTHS[now.month]} {now.year}, starting at {baseline}. Updated {now.date()} in America/Santiago.</desc>',
-           '<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:#fff}.meta{font-size:13px}.axis{font-size:11px;fill:#aeb6bf}.delta{font-size:11px;font-weight:600}</style>',
-           '<rect x=".5" y=".5" width="839" height="349" rx="8" fill="#000" stroke="#aaa"/>',
-           f'<text x="28" y="43" font-size="17" font-weight="600">Stargazers - {MONTHS[now.month]}</text>',
-           f'<text x="800" y="47" text-anchor="end" font-size="30" font-weight="600">☆ {total}</text>']
-    # Fixed separate zones prevent long repository names from colliding.
-    for ident, xpos, label, name in [("most", 28, "Most starred", most), ("latest", 425, "Latest starred", latest)]:
-        full = f"{label}: {name}"
-        short = full if len(full) <= 48 else full[:47] + "…"
-        out.append(f'<text x="{xpos}" y="82" class="meta"><title>{html.escape(full)}</title>{html.escape(short)}</text>')
+           '<style>text{font-family:"Segoe UI",sans-serif;fill:#eee}.meta{font-size:13px}.axis,.delta{font-family:Consolas,monospace;font-size:12px;fill:#aaa}.delta{fill:#fff;font-weight:600}</style>',
+           '<rect x=".5" y=".5" width="735" height="359" rx="9" fill="#000" stroke="#444"/>',
+           f'<text x="24" y="49" font-size="17" font-weight="600">Stargazers - {MONTHS[now.month]}</text>',
+           f'<text x="700" y="52" text-anchor="end" font-weight="600"><tspan font-size="36">☆</tspan><tspan dx="9" font-size="30">{total}</tspan></text>']
+    # Native inline text flow reproduces the preview's 24px gap, rather than
+    # spreading the two summaries into separate fixed columns.
+    def short_name(name):
+        return html.escape(name if len(name) <= 28 else name[:27] + "…")
+
+    out.append(f'<text x="24" y="92" class="meta"><title>{html.escape(f"Most starred: {most}; Latest starred: {latest}")}</title>'
+               f'<tspan fill="#999">Most starred:</tspan> {short_name(most)}'
+               f'<tspan dx="24" fill="#999">Latest starred:</tspan> {short_name(latest)}</text>')
     for tick in integer_ticks(low, high):
         yy = y(tick)
         out.extend([f'<line x1="{left}" y1="{yy:.2f}" x2="{right}" y2="{yy:.2f}" stroke="#222"/>',

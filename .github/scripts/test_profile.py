@@ -105,7 +105,7 @@ class StarsTests(unittest.TestCase):
             xml = ET.fromstring(stars.chart_svg(record, "A", "B", date(f"{year}-{month:02d}-{days}T23:00")))
             points = xml.findall('s:circle', NS)
             self.assertEqual(len(points), days)
-            self.assertEqual(points[-1].attrib["cx"], "800.00")
+            self.assertEqual(points[-1].attrib["cx"], "696.00")
 
     def test_api_failure_does_not_write_files(self):
         with patch.object(stars, "fetch_stars", side_effect=RuntimeError("API failure")), patch.object(stars, "get_token", return_value="test"), patch.object(Path, "write_text") as write:
