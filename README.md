@@ -56,7 +56,7 @@
 
 <!-- START_ACTIVITY -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg" alt="Recent Git Activity" />
+  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg?v=border-444444" alt="Recent Git Activity" />
 </p>
 <!-- END_ACTIVITY -->
 
