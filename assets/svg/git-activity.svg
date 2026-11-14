@@ -49,7 +49,7 @@
   <rect x="97.0" y="178" width="226.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="210.0" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:feature/web-pe…</text>
   </g>
-  <text x="405" y="189" text-anchor="end" class="time">10D AGO</text>
+  <text x="405" y="189" text-anchor="end" class="time">11D AGO</text>
   <text x="57" y="207" class="detail" clip-path="url(#detail-0-2)">&quot;perf: start visible poster requests together&quot;</text>
   <!-- Item Col 1 Row 0 -->
   <defs><clipPath id="detail-1-0"><rect x="467" y="77" width="338" height="20" /></clipPath></defs>
@@ -59,7 +59,7 @@
   <rect x="507.0" y="62" width="216.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="615.0" y="74" text-anchor="middle" class="badge">NuvioLatinoSetup:feature/web-p…</text>
   </g>
-  <text x="805" y="73" text-anchor="end" class="time">10D AGO</text>
+  <text x="805" y="73" text-anchor="end" class="time">11D AGO</text>
   <text x="467" y="91" class="detail" clip-path="url(#detail-1-0)">&quot;fix: fit touch targets inside the navigatio...&quot;</text>
   <!-- Item Col 1 Row 1 -->
   <defs><clipPath id="detail-1-1"><rect x="467" y="135" width="338" height="20" /></clipPath></defs>
