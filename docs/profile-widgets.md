@@ -55,6 +55,7 @@ Long repository/branch badges are shortened with an ellipsis to leave a fixed
 timestamp area and gap in each column. The original label is retained in SVG
 `title` metadata. XML escaping is applied after shortening.
 
-The activity, stargazer and Steam workflows share a concurrency group to serialize
-writes. The script-based publishers merge remote updates before pushing generated
-assets, preserving history without rebasing or force pushes.
+The activity, stargazer and Steam workflows use separate concurrency groups per
+workflow and branch. A single shared group can cancel pending jobs when several
+workflows start together. The script-based publishers merge remote updates before
+pushing generated assets, preserving history without rebasing or force pushes.
