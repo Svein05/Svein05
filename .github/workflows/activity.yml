@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: profile-generated-assets
+  cancel-in-progress: false
+
 jobs:
   update-activity:
     runs-on: ubuntu-latest
@@ -34,4 +38,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md assets/svg/git-activity.svg
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update recent activity feed [skip ci]" && git push)
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update recent activity feed [skip ci]"
+            git pull --no-rebase --no-edit origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
