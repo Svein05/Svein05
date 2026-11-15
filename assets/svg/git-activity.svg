@@ -29,7 +29,7 @@
   <rect x="97.0" y="62" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="171.2" y="74" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
   </g>
-  <text x="405" y="73" text-anchor="end" class="time">7D AGO</text>
+  <text x="405" y="73" text-anchor="end" class="time">8D AGO</text>
   <text x="57" y="91" class="detail" clip-path="url(#detail-0-0)">&quot;release: publish 1.10.0&quot;</text>
   <!-- Item Col 0 Row 1 -->
   <defs><clipPath id="detail-0-1"><rect x="57" y="135" width="348" height="20" /></clipPath></defs>
@@ -39,7 +39,7 @@
   <rect x="97.0" y="120" width="168.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="181.0" y="132" text-anchor="middle" class="badge">NuvioLatinoSetup:develop</text>
   </g>
-  <text x="405" y="131" text-anchor="end" class="time">7D AGO</text>
+  <text x="405" y="131" text-anchor="end" class="time">8D AGO</text>
   <text x="57" y="149" class="detail" clip-path="url(#detail-0-1)">&quot;chore: prepare release 1.10.0&quot;</text>
   <!-- Item Col 0 Row 2 -->
   <defs><clipPath id="detail-0-2"><rect x="57" y="193" width="348" height="20" /></clipPath></defs>
@@ -69,7 +69,7 @@
   <rect x="522.0" y="120" width="116.0" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="580.0" y="132" text-anchor="middle" class="badge">NuvioLatinoSetup</text>
   </g>
-  <text x="805" y="131" text-anchor="end" class="time">11D AGO</text>
+  <text x="805" y="131" text-anchor="end" class="time">12D AGO</text>
   <text x="467" y="149" class="detail" clip-path="url(#detail-1-1)">&quot;Branch feature/web-performance-accessibility&quot;</text>
   <!-- Item Col 1 Row 2 -->
   <defs><clipPath id="detail-1-2"><rect x="467" y="193" width="338" height="20" /></clipPath></defs>
@@ -79,6 +79,6 @@
   <rect x="507.0" y="178" width="148.5" height="16" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1" />
   <text x="581.2" y="190" text-anchor="middle" class="badge">NuvioLatinoSetup:main</text>
   </g>
-  <text x="805" y="189" text-anchor="end" class="time">19D AGO</text>
+  <text x="805" y="189" text-anchor="end" class="time">20D AGO</text>
   <text x="467" y="207" class="detail" clip-path="url(#detail-1-2)">&quot;merge: release workflow maintenance without...&quot;</text>
 </svg>
