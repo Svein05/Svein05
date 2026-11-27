@@ -65,7 +65,7 @@ def time_ago(date_str):
         return f"{days}D AGO"
 
 def fetch_events():
-    url = f"https://api.github.com/users/{USERNAME}/events?per_page=40"
+    url = f"https://api.github.com/users/{USERNAME}/events/public?per_page=40"
     req = urllib.request.Request(url, headers=get_headers())
     try:
         with urllib.request.urlopen(req) as resp:
@@ -120,21 +120,47 @@ def fallback_from_git():
         print(f"Git fallback error: {e}")
         return []
 
+def repo_is_public(repo):
+    """Require current anonymous visibility, not an event's historical visibility."""
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
+        return False
+    request = urllib.request.Request(
+        f"https://api.github.com/repos/{repo}",
+        headers={"User-Agent": "Svein05-public-profile", "Accept": "application/vnd.github+json"},
+    )
+    try:
+        # Deliberately omit Authorization: token access must not expose private repos.
+        with urllib.request.urlopen(request, timeout=15) as response:
+            metadata = json.load(response)
+        return metadata.get("private") is False and metadata.get("visibility", "public") == "public"
+    except Exception:
+        # Private, deleted, inaccessible or unverified repositories are all omitted.
+        return False
+
+
 def process_events(events):
     if not events:
-        return fallback_from_git()
+        return []
 
     events.sort(key=lambda x: x.get("created_at", ""), reverse=True)
 
     parsed = []
     seen = set()
+    visibility = {}
 
     for e in events:
         if len(parsed) >= 6:
             break
 
         etype = e["type"]
-        repo = e["repo"]["name"]
+        repo = e.get("repo", {}).get("name", "")
+        if e.get("public") is False or not repo:
+            continue
+        key = repo.casefold()
+        if key not in visibility:
+            visibility[key] = repo_is_public(repo)
+        if not visibility[key]:
+            continue
         repo_short = repo.split("/")[-1]
         created_at = e["created_at"]
         time_tag = time_ago(created_at)
@@ -347,7 +373,7 @@ def update_readme(svg_rel_path="assets/svg/git-activity.svg", readme_path="READM
     replacement = (
         '<!-- START_ACTIVITY -->\n'
         '<p align="center">\n'
-        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg?v=border-444444" alt="Recent Git Activity" />\n'
+        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg?v=public-only" alt="Recent Git Activity" />\n'
         '</p>\n'
         '<!-- END_ACTIVITY -->'
     )
