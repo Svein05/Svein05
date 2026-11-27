@@ -51,6 +51,14 @@ python -m unittest discover -s .github/scripts -p 'test_*.py'
 
 ## Recent Git Activity
 
+Only public events from repositories that are currently accessible anonymously
+are displayed. Visibility is checked once per repository per run, before reading
+commit messages. Private events and repositories that became private after an
+event are excluded. Visibility errors fail closed: no event from an unverified
+repository is published. An empty feed no longer uses local Git history as a
+fallback. The README image reference is versioned to refresh cached output when
+the privacy filter is introduced.
+
 Long repository/branch badges are shortened with an ellipsis to leave a fixed
 timestamp area and gap in each column. The original label is retained in SVG
 `title` metadata. XML escaping is applied after shortening.

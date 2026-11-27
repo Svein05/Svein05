@@ -123,6 +123,42 @@ class StarsTests(unittest.TestCase):
 
 
 class ActivityTests(unittest.TestCase):
+    def test_current_private_repo_is_excluded_even_if_event_was_public(self):
+        events = [{"type": "PushEvent", "public": True, "repo": {"name": "demo/hidden"},
+                   "created_at": "2026-11-27T12:00:00Z", "payload": {"head": "abcdef", "ref": "refs/heads/main"}}]
+        with patch.object(activity, "repo_is_public", return_value=False), patch.object(activity, "fetch_commit_msg") as commits:
+            self.assertEqual(activity.process_events(events), [])
+            commits.assert_not_called()
+
+    def test_public_repos_remain_and_visibility_is_cached_per_run(self):
+        events = [{"type": "CreateEvent", "public": True, "repo": {"name": "demo/public"},
+                   "created_at": "2026-11-27T12:00:00Z", "payload": {"ref_type": "branch", "ref": "develop"}} for _ in range(2)]
+        with patch.object(activity, "repo_is_public", return_value=True) as visibility:
+            self.assertEqual(len(activity.process_events(events)), 2)
+            visibility.assert_called_once_with("demo/public")
+
+    def test_private_event_is_excluded_before_lookup(self):
+        events = [{"type": "PushEvent", "public": False, "repo": {"name": "demo/hidden"}}]
+        with patch.object(activity, "repo_is_public") as visibility:
+            self.assertEqual(activity.process_events(events), [])
+            visibility.assert_not_called()
+
+    def test_visibility_lookup_is_anonymous_and_fails_closed(self):
+        from io import BytesIO
+        with patch.object(activity.urllib.request, "urlopen", return_value=BytesIO(b'{"private": false,"visibility":"public"}')) as request:
+            self.assertTrue(activity.repo_is_public("demo/public"))
+            self.assertNotIn("Authorization", request.call_args.args[0].headers)
+        for metadata in [b'{"private":true}', b'{}', b'{"private":false,"visibility":"internal"}']:
+            with patch.object(activity.urllib.request, "urlopen", return_value=BytesIO(metadata)):
+                self.assertFalse(activity.repo_is_public("demo/hidden"))
+        with patch.object(activity.urllib.request, "urlopen", side_effect=TimeoutError):
+            self.assertFalse(activity.repo_is_public("demo/unverified"))
+
+    def test_empty_events_do_not_fall_back_to_unverified_local_history(self):
+        with patch.object(activity, "fallback_from_git") as fallback:
+            self.assertEqual(activity.process_events([]), [])
+            fallback.assert_not_called()
+
     def test_long_branches_leave_space_for_timestamps(self):
         long_name = "NuvioLatinoSetup:feature/web-performance-accessibility<&>"
         items = [{"icon_type": "commit", "action": "Push", "repo_label": long_name,
