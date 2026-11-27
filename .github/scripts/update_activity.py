@@ -373,7 +373,7 @@ def update_readme(svg_rel_path="assets/svg/git-activity.svg", readme_path="READM
     replacement = (
         '<!-- START_ACTIVITY -->\n'
         '<p align="center">\n'
-        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/main/assets/svg/git-activity.svg?v=public-only" alt="Recent Git Activity" />\n'
+        '  <img src="https://raw.githubusercontent.com/Svein05/Svein05/refs/heads/main/assets/svg/git-activity.svg?v=public-only" alt="Recent Git Activity" />\n'
         '</p>\n'
         '<!-- END_ACTIVITY -->'
     )
