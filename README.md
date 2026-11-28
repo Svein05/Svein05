@@ -37,9 +37,18 @@
         <a href="https://github.com/Svein05/NuvioLatinoSetup" target="_blank"><img src="https://img.shields.io/badge/REPOSITORY-000000?style=for-the-badge&logo=github&logoColor=white" alt="Repository" />        </a>
       </p>
     </td>
-    <td width="50%" valign="middle" align="center">
-      <h3>🚧 Coming Soon...</h3>
-      <p><i>Building something new :)</i></p>
+    <td width="50%" valign="top">
+      <a href="https://pedika.pages.dev/">
+        <img src="https://raw.githubusercontent.com/Svein05/Pedika/main/assets/preview/pedika-card.png" alt="Pedika — Tu negocio, en orden. Clients, campaigns and payments." width="100%" />
+      </a>
+      <p align="center">
+        A workspace for catalog consultants to manage clients, campaigns, inventory and payments.
+      </p>
+      <p align="center">
+        <a href="https://pedika.pages.dev/"><img src="https://img.shields.io/badge/LIVE_APP-000000?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live App" /></a>
+        &nbsp;
+        <a href="https://github.com/Svein05/Pedika"><img src="https://img.shields.io/badge/REPOSITORY-000000?style=for-the-badge&logo=github&logoColor=white" alt="Repository" /></a>
+      </p>
     </td>
   </tr>
 </table>
