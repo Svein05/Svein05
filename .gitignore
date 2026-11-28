@@ -11,3 +11,19 @@ env/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Local AI instructions and context
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+/context.md
+/.agents/
+/.agent/
+/.codex/
+/.claude/
+/.contexts/
+/.local/
+/.cursor/
+/.mcp.json
+/.github/copilot-instructions.md
+/.github/instructions/
